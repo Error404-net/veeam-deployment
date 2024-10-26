@@ -1,0 +1,96 @@
+# Veeam Backup & Replication Server on VLAN 67
+resource "proxmox_vm_qemu" "veeam_backup_server" {
+  name        = "VeeamBackupServer"
+  target_node = "proxmox-node1"
+  clone       = "Windows2022Template"
+  
+  cpu     = 4
+  memory  = 8192
+  cores   = 2
+  sockets = 1
+
+  disk {
+    size = "100G"
+  }
+
+  network {
+    model      = "virtio"
+    bridge     = "vmbr0"
+    #vlan_tag   = 67
+  }
+
+  # Static IP
+  ipconfig0 = "ip=10.1.67.10/24,gw=${var.vlan67_gateway}"
+}
+
+# Veeam Proxy Server on VLAN 68
+resource "proxmox_vm_qemu" "veeam_proxy_server" {
+  name        = "VeeamProxyServer"
+  target_node = "proxmox-node1"
+  clone       = "Windows2022Template"
+  
+  cpu     = 4
+  memory  = 8192
+  cores   = 2
+  sockets = 1
+
+  disk {
+    size = "50G"
+  }
+
+  network {
+    model      = "virtio"
+    bridge     = "vmbr0"
+   # vlan_tag   = 68
+  }
+
+  ipconfig0 = "ip=10.1.68.10/24,gw=${var.vlan68_gateway}"
+}
+
+# Veeam Repository Server on VLAN 69
+resource "proxmox_vm_qemu" "veeam_repo_server" {
+  name        = "VeeamRepositoryServer"
+  target_node = "proxmox-node1"
+  clone       = "Windows2022Template"
+  
+  cpu     = 4
+  memory  = 8192
+  cores   = 2
+  sockets = 1
+
+  disk {
+    size = "200G"
+  }
+
+  network {
+    model      = "virtio"
+    bridge     = "vmbr0"
+  #  vlan_tag   = 69
+  }
+
+  ipconfig0 = "ip=10.1.69.10/24,gw=${var.vlan69_gateway}"
+}
+
+# Veeam Service Provider Console on VLAN 67
+resource "proxmox_vm_qemu" "veeam_console_server" {
+  name        = "VeeamSPConsole"
+  target_node = "proxmox-node1"
+  clone       = "Windows2022Template"
+  
+  cpu     = 4
+  memory  = 8192
+  cores   = 2
+  sockets = 1
+
+  disk {
+    size = "50G"
+  }
+
+  network {
+    model      = "virtio"
+    bridge     = "vmbr0"
+  #  vlan_tag   = 67
+  }
+
+  ipconfig0 = "ip=10.1.67.11/24,gw=${var.vlan67_gateway}"
+}
