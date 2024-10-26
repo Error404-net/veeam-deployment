@@ -14,3 +14,8 @@ This project automates the deployment of a Veeam environment on Proxmox using Te
 1. Define your environment variables in `terraform.tfvars`.
 2. Run `terraform init` to initialize the project.
 3. Run `terraform apply` to deploy the environment.
+
+## Alternate Instructions
+ 1. Define your environment variables in `terraform.tfvars` `secrets.tfvars`
+ 2. run the `terraform init` to initilaize the project
+ 3. run  `terraform apply -var-file="secrets.tfvars`
